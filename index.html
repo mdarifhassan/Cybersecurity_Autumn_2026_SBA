@@ -84,6 +84,20 @@
       color: #2563eb;
     }
 
+    .lab-folder {
+      background: #ecfdf5;
+      border: 2px solid #16a34a;
+    }
+
+    .lab-folder:hover {
+      background: #dcfce7;
+      border-color: #15803d;
+    }
+
+    .lab-folder .folder-title {
+      color: #15803d;
+    }
+
     .info-box {
       background: white;
       padding: 35px;
@@ -145,6 +159,23 @@
       margin-top: 8px;
     }
 
+    .material-link {
+      display: inline-block;
+      margin-top: 18px;
+      margin-right: 12px;
+      background: #16a34a;
+      color: white;
+      padding: 14px 22px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .material-link:hover {
+      background: #15803d;
+    }
+
     footer {
       text-align: center;
       padding: 25px;
@@ -170,6 +201,12 @@
 
       .info-box p {
         font-size: 17px;
+      }
+
+      .material-link {
+        display: block;
+        width: fit-content;
+        margin-bottom: 12px;
       }
     }
   </style>
@@ -221,11 +258,19 @@
         <div class="folder-title">Special Consideration</div>
       </div>
 
+      <div class="folder lab-folder" onclick="showLabMaterial()">
+        <div class="folder-icon">🧪</div>
+        <div class="folder-title">Lab Material</div>
+      </div>
+
     </div>
 
     <div class="info-box" id="infoBox">
       <h2>Welcome</h2>
-      <p>Please click one of the folders above. You must enter the correct access code before the information appears.</p>
+      <p>
+        Please click one of the folders above. Versions 1–6 and Special Consideration require an access code.
+        Lab Material does not require an access code.
+      </p>
     </div>
 
   </main>
@@ -331,6 +376,31 @@
       infoBox.innerHTML = `
         <h2>${info.title}</h2>
         <p>${info.text}</p>
+      `;
+    }
+
+    function showLabMaterial() {
+      const infoBox = document.getElementById("infoBox");
+
+      infoBox.innerHTML = `
+        <h2>Lab Material</h2>
+        <p>Please use your UTS email account to access the information.</p>
+
+        <a 
+          class="material-link" 
+          href="https://drive.google.com/drive/u/1/folders/1JhK7bM-c42UD88X6MEuV64yyeJ-eboAy" 
+          target="_blank"
+        >
+          SBA VM Images
+        </a>
+
+        <a 
+          class="material-link" 
+          href="https://drive.google.com/drive/u/1/folders/1iBc08Hw0p956TTCYHMrgbL8pRKn2TQUL" 
+          target="_blank"
+        >
+          Lab Manual
+        </a>
       `;
     }
   </script>
