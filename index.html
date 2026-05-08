@@ -103,6 +103,48 @@
       line-height: 1.7;
     }
 
+    .access-box {
+      max-width: 500px;
+    }
+
+    .access-box input {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      font-size: 17px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    .access-box button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 13px 22px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .access-box button:hover {
+      background: #1d4ed8;
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .hint {
+      color: #6b7280;
+      font-size: 15px;
+      margin-top: 8px;
+    }
+
     footer {
       text-align: center;
       padding: 25px;
@@ -137,44 +179,44 @@
 
   <header>
     <h1>Cybersecurity Autumn 2026 SBA</h1>
-    <p>Click a folder to view information</p>
+    <p>Click a folder and enter the access code to view information</p>
   </header>
 
   <main class="container">
 
     <div class="folder-grid">
 
-      <div class="folder" onclick="showInfo(1)">
+      <div class="folder" onclick="requestAccess(1)">
         <div class="folder-icon">📁</div>
         <div class="folder-title">Version 1</div>
       </div>
 
-      <div class="folder" onclick="showInfo(2)">
+      <div class="folder" onclick="requestAccess(2)">
         <div class="folder-icon">📁</div>
         <div class="folder-title">Version 2</div>
       </div>
 
-      <div class="folder" onclick="showInfo(3)">
+      <div class="folder" onclick="requestAccess(3)">
         <div class="folder-icon">📁</div>
         <div class="folder-title">Version 3</div>
       </div>
 
-      <div class="folder" onclick="showInfo(4)">
+      <div class="folder" onclick="requestAccess(4)">
         <div class="folder-icon">📁</div>
         <div class="folder-title">Version 4</div>
       </div>
 
-      <div class="folder" onclick="showInfo(5)">
+      <div class="folder" onclick="requestAccess(5)">
         <div class="folder-icon">📁</div>
         <div class="folder-title">Version 5</div>
       </div>
 
-      <div class="folder" onclick="showInfo(6)">
+      <div class="folder" onclick="requestAccess(6)">
         <div class="folder-icon">📁</div>
         <div class="folder-title">Version 6</div>
       </div>
 
-      <div class="folder special-folder" onclick="showInfo(7)">
+      <div class="folder special-folder" onclick="requestAccess(7)">
         <div class="folder-icon">⭐</div>
         <div class="folder-title">Special Consideration</div>
       </div>
@@ -183,7 +225,7 @@
 
     <div class="info-box" id="infoBox">
       <h2>Welcome</h2>
-      <p>Please click one of the folders above to see its information.</p>
+      <p>Please click one of the folders above. You must enter the correct access code before the information appears.</p>
     </div>
 
   </main>
@@ -196,33 +238,91 @@
     const folderInfo = {
       1: {
         title: "Version 1",
+        code: "V1CODE",
         text: "This is the information for Version 1. You can write details, notes, descriptions, links, or instructions here."
       },
       2: {
         title: "Version 2",
+        code: "V2CODE",
         text: "This is the information for Version 2. Replace this text with your own content."
       },
       3: {
         title: "Version 3",
+        code: "V3CODE",
         text: "This is the information for Version 3. You can add project details, research information, or file descriptions here."
       },
       4: {
         title: "Version 4",
+        code: "V4CODE",
         text: "This is the information for Version 4. Add anything you want people to read after clicking this folder."
       },
       5: {
         title: "Version 5",
+        code: "V5CODE",
         text: "This is the information for Version 5. You can describe this version clearly here."
       },
       6: {
         title: "Version 6",
+        code: "V6CODE",
         text: "This is the information for Version 6. You can also include links, contact details, or additional notes."
       },
       7: {
         title: "Special Consideration",
+        code: "SPECIAL2026",
         text: "This section contains special consideration information. Add any important notes, exceptional cases, extra instructions, special requirements, or special assessment details here."
       }
     };
+
+    let selectedFolder = null;
+
+    function requestAccess(versionNumber) {
+      selectedFolder = versionNumber;
+      const info = folderInfo[versionNumber];
+      const infoBox = document.getElementById("infoBox");
+
+      infoBox.innerHTML = `
+        <h2>${info.title}</h2>
+
+        <div class="access-box">
+          <p>Please enter the access code to view this folder.</p>
+
+          <input 
+            type="password" 
+            id="accessCodeInput" 
+            placeholder="Enter access code"
+            onkeydown="handleEnter(event)"
+          />
+
+          <button onclick="checkAccessCode()">Unlock Folder</button>
+
+          <p class="hint">The content will appear only after the correct access code is entered.</p>
+
+          <div id="errorMessage" class="error-message"></div>
+        </div>
+      `;
+
+      setTimeout(() => {
+        document.getElementById("accessCodeInput").focus();
+      }, 100);
+    }
+
+    function checkAccessCode() {
+      const input = document.getElementById("accessCodeInput").value.trim();
+      const errorMessage = document.getElementById("errorMessage");
+      const info = folderInfo[selectedFolder];
+
+      if (input === info.code) {
+        showInfo(selectedFolder);
+      } else {
+        errorMessage.textContent = "Incorrect access code. Please try again.";
+      }
+    }
+
+    function handleEnter(event) {
+      if (event.key === "Enter") {
+        checkAccessCode();
+      }
+    }
 
     function showInfo(versionNumber) {
       const infoBox = document.getElementById("infoBox");
